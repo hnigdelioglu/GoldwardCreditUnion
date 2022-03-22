@@ -1,7 +1,15 @@
 <template>
    <div class="slds-grid slds-wrap slds-p-around_small">
         <div class="slds-col slds-size_4-of-12">
-            <span>1</span>
+            <lightning-combobox
+            name="progress"
+            label="Customer Type"
+            value={value}
+            placeholder="--None--"
+            options={customerOptions}
+            onchange={CustomerTypeChange} 
+            required="true"
+            class="fetchSchemeFields"></lightning-combobox>
         </div>
         
         <div class="slds-col slds-size_4-of-12 slds-p-around_small">
