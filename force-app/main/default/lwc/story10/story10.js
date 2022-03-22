@@ -1,4 +1,5 @@
 import { api, LightningElement, wire } from 'lwc';
+
 import fetchCusTypeLocal from '@salesforce/apex/story10.fetchCusType'
 export default class Story10 extends LightningElement {
 
@@ -11,10 +12,7 @@ export default class Story10 extends LightningElement {
             let option = [];
             option.push({label:data.Customer_Type__c, value:data.Customer_Type__c})
             this.customerOptions=option;
-            console.log('Option is '+JSON.stringify(this.customerOptions))
+            console.log('Option is ' + JSON.stringify(this.customerOptions))
         }
     }
-
-
-
 }
