@@ -1,10 +1,9 @@
 <template>
-   <div class="slds-grid slds-wrap slds-p-around_small">
-        <div class="slds-col slds-size_4-of-12">
+   <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_4-of-12 slds-p-around_small">
             <lightning-combobox
-            name="progress"
+            name="Customer_Type"
             label="Customer Type"
-            value={value}
             placeholder="--None--"
             options={customerOptions}
             onchange={CustomerTypeChange} 
@@ -13,11 +12,60 @@
         </div>
         
         <div class="slds-col slds-size_4-of-12 slds-p-around_small">
-            <span>2</span>
+            <lightning-combobox
+            name="Deposit_Type"
+            label="Deposit Type"
+            placeholder="--None--"
+            options={DepositTypeOptions}
+            onchange={DepositTypeChange} 
+            required="true"
+            class="fetchSchemeFields"></lightning-combobox>
         </div>
         
+        
         <div class="slds-col slds-size_4-of-12 slds-p-around_small">
-            <span>3</span>
+            <lightning-combobox
+            name="payFreq_Type"
+            label="Payout Frequency Type"
+            placeholder="--None--"
+            options={payFreqOptions}
+            onchange={payFreqChange} 
+            required="true"
+            class="fetchSchemeFields"></lightning-combobox>
         </div>
+
+
+        <div class="slds-col slds-size_4-of-12 slds-p-around_small">
+            <lightning-combobox
+            name="Tenor_in_months"
+            label="Tenor in Months"
+            placeholder="--None--"
+            options={tenorMonthOptions}
+            onchange={tenorMonthChange} 
+            required="true"
+            class="fetchSchemeFields"></lightning-combobox>
+        </div>
+
+
+        <div class="slds-col slds-size_4-of-12 slds-p-around_small">
+            <lightning-combobox
+            name="Tenor_in_Days"
+            label="Tenor in Days"
+            placeholder="--None--"
+            options={tenorDayOptions}
+            onchange={tenorDayChange} 
+            required="true"
+            class="fetchSchemeFields"></lightning-combobox>
+        </div>
+
+
+        <div class="slds-col slds-size_4-of-12 slds-p-around_small">
+           <lightning-input type="number" label="FD Amount" name="fd_amount" required="true" class="fetchSchemeFields" onchange={fdAmountChange}></lightning-input>
+        </div>
+
+        <div class="slds-col slds-size_4-of-12 slds-p-around_small slds-align_absolute-center">
+        <lightning-button variant="brand" label="Fetch Scheme" title="Fetch Scheme" onclick={handleFetchScheme} class="slds-m-left_x-small"></lightning-button>
+        </div>
+
     </div>
 </template>
