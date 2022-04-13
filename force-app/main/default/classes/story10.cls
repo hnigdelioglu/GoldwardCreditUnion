@@ -4,5 +4,4 @@ public with sharing class story10 {
         FD_Detail__c fdRec = [SELECT Id, Name, Customer_Type__c FROM FD_Detail__c WHERE Id=:fdId];
         return fdRec;      
     }
-
 }

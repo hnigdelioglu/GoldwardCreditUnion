@@ -94,14 +94,13 @@ export default class Story10 extends LightningElement {
     tenorMonthChange(event){
         console.log('Selected Tenor in Months is::' + event.detail.value )
         this.tenorInMonths = event.detail.value
-    
     }
 
 
-    get tenorInDayOptions(){
+    get tenorDayOptions(){
         let options = []
-        for(var i = 0; i< 30; i++){
-            options.push({label:i.toString(), value:i.toString()})
+        for(var j = 0; j< 30; j++){
+            options.push({label:j.toString(), value:j.toString()})
         }
         return options
     }
@@ -116,6 +115,17 @@ export default class Story10 extends LightningElement {
         console.log('Selected FD Amount is :: ' + event.detail.value)
         this.FdAmount = event.detail.value
         
+    }
+
+    handleFetchScheme(event){
+        let isValid = true
+        let inputFields = this.template.querySelectorAll('.fetchSchemeFields')
+        inputFields.forEach(inputField=>{
+            if(!inputField.checkValidity()){
+                inputField.reportValidity();
+                isValid = false;
+            }
+        })
     }
 
 }
