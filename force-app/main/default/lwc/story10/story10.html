@@ -63,8 +63,35 @@
            <lightning-input type="number" label="FD Amount" name="fd_amount" required="true" class="fetchSchemeFields" onchange={fdAmountChange}></lightning-input>
         </div>
 
-        <div class="slds-col slds-size_4-of-12 slds-p-around_small slds-align_absolute-center">
+       
+       
+        <div class="slds-col slds-size_12-of-12 slds-p-around_small slds-align_absolute-center">
         <lightning-button variant="brand" label="Fetch Scheme" title="Fetch Scheme" onclick={handleFetchScheme} class="slds-m-left_x-small"></lightning-button>
+        </div>
+
+
+        <div class="slds-col slds-size_4-of-12 slds-p-around_small">
+            <lightning-combobox
+            name="Interest_Scheme"
+            label="Interest Scheme"
+            placeholder="--None--"
+            options={listScheme}
+            onchange={InterestSchemeChange} 
+            required="true"
+            class="clsForSaveButton"></lightning-combobox>
+        </div>
+
+
+        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small"></div>
+
+
+        <div class="slds-col slds-size_4-of-12 slds-p-around_small">
+            <lightning-input type="number" label="Interest Rate" name="interest_rate" required="true" class="clsForSaveButton" value={selectedIntRate} disabled="true"></lightning-input>
+         </div>
+
+
+         <div class="slds-col slds-size_12-of-12 slds-p-around_x-small slds-align_absolute-center">
+        <lightning-button variant="brand" label="Save" title="Save" onclick={save} ></lightning-button>
         </div>
 
     </div>

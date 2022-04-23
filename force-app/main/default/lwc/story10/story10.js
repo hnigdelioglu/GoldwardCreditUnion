@@ -4,6 +4,8 @@ import { getPicklistValues, getObjectInfo } from 'lightning/uiObjectInfoApi';
 import FdDetailLocal from '@salesforce/schema/FD_Detail__c'
 import depositTypeLocal from '@salesforce/schema/FD_Detail__c.Deposit_Type__c'
 import payFreqTypeLocal from '@salesforce/schema/FD_Detail__c.Payout_Frequency__c'
+import fetchIntScheme from '@salesforce/apex/InterestScheme.InterestSchemeFetch';
+
 export default class Story10 extends LightningElement {
 
     @api recordId;
@@ -17,6 +19,9 @@ export default class Story10 extends LightningElement {
     tenorInMonths = ''
     tenorInDays = ''
     FdAmount = 0
+    @track listScheme =[]
+    selectedIntRate
+    selectedIntSchmRecId
 
 
     @wire(fetchCusTypeLocal, {
@@ -77,7 +82,7 @@ export default class Story10 extends LightningElement {
 
 
     payFreqChange(event){
-        console.log('selected Payour Freq is '  + event.detail.value)
+        console.log('selected Payout Freq is '  + event.detail.value)
         this. selectedPayFreq = event.detail.value
 
     }
@@ -117,6 +122,19 @@ export default class Story10 extends LightningElement {
         
     }
 
+
+    InterestSchemeChange(event){
+        var schemeRecId=event.detail.value
+        for(var i=0; i<this.listScheme.length; i++){
+            if(schemeRecId==this.listScheme[i].value){
+                this.selectedIntSchmRecId=schemeRecId
+                this.selectedIntRate=this.listScheme[i].InterestRate
+                break;
+            }
+        }
+    }
+
+
     handleFetchScheme(event){
         let isValid = true
         let inputFields = this.template.querySelectorAll('.fetchSchemeFields')
@@ -125,7 +143,50 @@ export default class Story10 extends LightningElement {
                 inputField.reportValidity();
                 isValid = false;
             }
-        })
-    }
+        });
+        if(isValid){
+            fetchIntScheme({
+                cusType:this.selectedCusType,
+                depType:this.selectedDepType,
+                tnrDay:this.tenorInDays,
+                tnrMonth:this.tenorInMonths,
+                fdAmount:this.fdAmount,
+                fdId:this.recordId
+            }).then(result =>{
+                var lstSch=[]
+                if(result){
+                    for(var cnt=0; cnt<result.length; cnt++){
+                        var tempObj = {};
+                        tempObj.label = result[cnt].Name;
+                        tempObj.value = result[cnt].Id;
+                        tempObj.InterestRate =result[cnt].Interest_Rate__c;
+                        lstSch.push(tempObj);
+                    }
+                }
+                this.listScheme = lstSch;
+                console.log('Scheme records::'+ JSON.stringify(this.listScheme));
+            }) .catch(error=>{
+                console.error('Error::'+ error.message)
+            })
+        }
+    };
 
-}
+    save(event){
+        let isValid = true;
+        let inputFields = this.template.querySelectorAll('.fetchSchemeFields');
+        inputFields.forEach(inputField=>{
+            if(!inputField.checkValidity()){
+                inputField.reportValidity();
+                isValid = false;
+            }
+        });
+
+        inputFields = this.template.querySelectorAll('.clsForSaveButton');
+        inputFields.forEach(inputField=>{
+            if(!inputField.checkValidity()){
+                inputField.reportValidity();
+                isValid = false;
+            }
+        });
+
+        return isValid;
