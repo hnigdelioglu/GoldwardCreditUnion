@@ -19,7 +19,7 @@ export default class Story10 extends LightningElement {
     tenorInMonths = ''
     tenorInDays = ''
     FdAmount = 0
-    @track listScheme =[]
+    listScheme=[]
     selectedIntRate
     selectedIntSchmRecId
 
@@ -122,19 +122,6 @@ export default class Story10 extends LightningElement {
         
     }
 
-
-    InterestSchemeChange(event){
-        var schemeRecId=event.detail.value
-        for(var i=0; i<this.listScheme.length; i++){
-            if(schemeRecId==this.listScheme[i].value){
-                this.selectedIntSchmRecId=schemeRecId
-                this.selectedIntRate=this.listScheme[i].InterestRate
-                break;
-            }
-        }
-    }
-
-
     handleFetchScheme(event){
         let isValid = true
         let inputFields = this.template.querySelectorAll('.fetchSchemeFields')
@@ -157,19 +144,31 @@ export default class Story10 extends LightningElement {
                 if(result){
                     for(var cnt=0; cnt<result.length; cnt++){
                         var tempObj = {};
-                        tempObj.label = result[cnt].Name;
-                        tempObj.value = result[cnt].Id;
-                        tempObj.InterestRate =result[cnt].Interest_Rate__c;
-                        lstSch.push(tempObj);
+                        tempObj.label = result[cnt].Name
+                        tempObj.value = result[cnt].Id
+                        tempObj.InterestRate =result[cnt].Interest_Rate__c
+                        lstSch.push(tempObj)
                     }
                 }
-                this.listScheme = lstSch;
-                console.log('Scheme records::'+ JSON.stringify(this.listScheme));
+                this.listScheme = lstSch
+                console.log('Scheme records::'+ JSON.stringify(result));
             }) .catch(error=>{
                 console.error('Error::'+ error.message)
             })
         }
     };
+
+
+    SchemeChange(event){
+        var schemeRecId=event.detail.value
+        for(var j=0; j<this.listScheme.length; j++){
+            if(schemeRecId==this.listScheme[j].value){
+                this.selectedIntSchmRecId=schemeRecId
+                this.selectedIntRate=this.listScheme[j].InterestRate
+                break;
+            }
+        }
+    }
 
     save(event){
         let isValid = true;
@@ -188,5 +187,6 @@ export default class Story10 extends LightningElement {
                 isValid = false;
             }
         });
-
         return isValid;
+    }
+}
